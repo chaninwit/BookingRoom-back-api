@@ -1,28 +1,15 @@
-module.exports = (Sequelize, DataTpyes) => {
-  const booking = Sequelize.define(
-    "booking",
-    {},
-    {
-      underscored: true,
-    }
-  );
+const { sequelize } = require("./index");
+const Sequelize = require("sequelize");
+// Define a model for your table
+const Booking = sequelize.define(
+  "Booking",
+  {
+    status_booking: Sequelize.INTEGER,
+  },
+  {
+    timestamps: true,
+    underscored: true,
+  }
+);
 
-  booking.associate = (models) => {
-    booking.belongsTo(models.User, {
-      foreignKey: {
-        name: "userId",
-        allowNull: false,
-      },
-      onDelete: "RESTRICT",
-    });
-    booking.belongsTo(models.meeting, {
-      foreignKey: {
-        name: "meetingId",
-        allowNull: false,
-      },
-      onDelete: "RESTRICT",
-    });
-  };
-
-  return booking;
-};
+module.exports = Booking;

@@ -1,9 +1,9 @@
 const User = require("../models/user");
 
-const findEmail = async (email) => {
+const findEmail = async (inputEmail) => {
   try {
     const user = await User.findOne({
-      where: { email },
+      where: { email: inputEmail },
     });
 
     if (user) {
@@ -11,6 +11,7 @@ const findEmail = async (email) => {
     } else {
       console.log("User not found");
     }
+    return user;
   } catch (error) {
     console.error("Error occurred while finding user:", error);
   }

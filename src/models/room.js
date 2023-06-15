@@ -1,33 +1,18 @@
-module.exports = (sequelize, DataTypes) => {
-  const roomModels = sequelize.define(
-    "room",
-    {
-      name: DataTypes.STRING,
-      numberSeat: DataTypes.STRING,
-      image: DataTypes.STRING,
-    },
+const { sequelize } = require("./index");
+const Sequelize = require("sequelize");
+// Define a model for your table
+const Room = sequelize.define(
+  "room",
+  {
+    name: Sequelize.STRING,
+    number_seat: Sequelize.STRING,
+    image: Sequelize.STRING,
+  },
 
-    {
-      underscored: true,
-    }
-  );
+  {
+    timestamps: true,
+    underscored: true,
+  }
+);
 
-  roomModels.associate = (models) => {
-    roomModels.hasMany(models.meeting, {
-      foreignKey: {
-        name: "roomId",
-        allowNull: false,
-      },
-      onDelete: "RESTRICT",
-    });
-    roomModels.belongsTo(models.chair, {
-      foreignKey: {
-        name: "chairId",
-        allowNull: false,
-      },
-      onDelete: "RESTRICT",
-    });
-  };
-
-  return roomModels;
-};
+module.exports = Room;

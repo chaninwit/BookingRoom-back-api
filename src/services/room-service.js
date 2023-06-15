@@ -1,6 +1,23 @@
-const { roomModels } = require("../models");
-// const { Op } = require("sequelize");
+const Room = require("../models/room");
 
-exports.getRoom = (room) => roomModels.findOne({ where: { name: room } });
+const findAllRoom = async () => {
+  try {
+    const room = await Room.findAll();
 
-exports.createRoom = (room) => roomModels.create(room);
+    if (room) {
+      console.log("User found:", room);
+    } else {
+      console.log("User not found");
+    }
+    return room;
+  } catch (error) {
+    console.error("Error occurred while finding user:", error);
+  }
+};
+
+const createRoom = (room) => Room.create(room);
+
+module.exports = {
+  findAllRoom,
+  createRoom,
+};

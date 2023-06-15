@@ -1,24 +1,15 @@
-module.exports = (sequelize, DataTypes) => {
-  const chair = sequelize.define(
-    "chair",
-    {
-      status: DataTypes.INTEGER,
-    },
+const { sequelize } = require("./index");
+const Sequelize = require("sequelize");
+// Define a model for your table
+const Chair = sequelize.define(
+  "Chair",
+  {
+    status: Sequelize.INTEGER,
+  },
 
-    {
-      underscored: true,
-    }
-  );
+  {
+    underscored: true,
+  }
+);
 
-  chair.associate = (models) => {
-    chair.hasMany(models.room, {
-      foreignKey: {
-        name: "chairId",
-        allowNull: false,
-      },
-      onDelete: "RESTRICT",
-    });
-  };
-
-  return chair;
-};
+module.exports = Chair;

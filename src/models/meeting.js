@@ -1,67 +1,51 @@
-module.exports = (Sequelize, DataTpyes) => {
-  const meeting = Sequelize.define(
-    "meeting",
-    {
-      name: {
-        type: DataTpyes.STRING,
-        validate: {
-          notEmpty: true,
-        },
-      },
-      details: {
-        type: DataTpyes.STRING,
-        validate: {
-          notEmpty: true,
-        },
-      },
-      roomNumber: {
-        type: DataTpyes.STRING,
-        validate: {
-          notEmpty: true,
-        },
-      },
-
-      time: {
-        type: DataTpyes.STRING,
-        validate: {
-          notEmpty: true,
-        },
-      },
-      dateStart: {
-        type: DataTpyes.STRING,
-        validate: {
-          notEmpty: true,
-        },
-      },
-      dateEnd: {
-        type: DataTpyes.STRING,
-        validate: {
-          notEmpty: true,
-        },
+const { sequelize } = require("./index");
+const Sequelize = require("sequelize");
+// Define a model for your table
+const Meeting = sequelize.define(
+  "Meeting",
+  {
+    name: {
+      type: Sequelize.STRING,
+      validate: {
+        notEmpty: true,
       },
     },
-    {
-      underscored: true,
-      paranoid: true,
-    }
-  );
-
-  meeting.associate = (models) => {
-    meeting.hasMany(models.booking, {
-      foreignKey: {
-        name: "meetingId",
-        allowNull: false,
+    details: {
+      type: Sequelize.STRING,
+      validate: {
+        notEmpty: true,
       },
-      onDelete: "RESTRICT",
-    });
-    meeting.belongsTo(models.room, {
-      foreignKey: {
-        name: "roomId",
-        allowNull: false,
+    },
+    roomNumber: {
+      type: Sequelize.STRING,
+      validate: {
+        notEmpty: true,
       },
-      onDelete: "RESTRICT",
-    });
-  };
+    },
 
-  return meeting;
-};
+    time: {
+      type: Sequelize.STRING,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    dateStart: {
+      type: Sequelize.STRING,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    dateEnd: {
+      type: Sequelize.STRING,
+      validate: {
+        notEmpty: true,
+      },
+    },
+  },
+  {
+    underscored: true,
+    paranoid: true,
+  }
+);
+
+module.exports = Meeting;
