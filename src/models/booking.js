@@ -1,10 +1,13 @@
-const { sequelize } = require("./index");
 const Sequelize = require("sequelize");
-// Define a model for your table
+const { sequelize } = require("./index");
+
 const Booking = sequelize.define(
   "Booking",
   {
     status_booking: Sequelize.INTEGER,
+    UserId: Sequelize.INTEGER,
+    MeetingId: Sequelize.INTEGER,
+    ChairId: Sequelize.INTEGER,
   },
   {
     timestamps: true,

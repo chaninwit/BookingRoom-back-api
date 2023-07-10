@@ -1,6 +1,6 @@
-const { sequelize } = require("./index");
 const Sequelize = require("sequelize");
-// Define a model for your table
+const { sequelize } = require("./index");
+
 const User = sequelize.define(
   "User",
   {

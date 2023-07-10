@@ -41,6 +41,8 @@ const Meeting = sequelize.define(
         notEmpty: true,
       },
     },
+
+    RoomId: Sequelize.INTEGER,
   },
   {
     underscored: true,

@@ -5,6 +5,7 @@ const Chair = sequelize.define(
   "Chair",
   {
     status: Sequelize.INTEGER,
+    RoomId: Sequelize.INTEGER,
   },
 
   {

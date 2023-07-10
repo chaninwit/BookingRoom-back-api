@@ -17,7 +17,13 @@ const findAllRoom = async () => {
 
 const createRoom = (room) => Room.create(room);
 
+const findRoomById = (User) =>
+  Room.findOne({
+    where: { id: User },
+  });
+
 module.exports = {
   findAllRoom,
   createRoom,
+  findRoomById,
 };
