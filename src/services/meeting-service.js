@@ -21,12 +21,9 @@ const createMeeting = (meeting) => Meeting.create(meeting);
 
 const deleteMeeting = (meeting) => Meeting.destroy(meeting);
 
-const findCardById = () =>
+const findCardById = (user) =>
   Meeting.findOne({
-    where: { id: Meeting },
-    include: {
-      Room: id,
-    },
+    where: { id: user },
   });
 
 const findCard = (meeting) => Meeting.findAll();

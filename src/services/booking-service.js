@@ -17,7 +17,18 @@ const findAllBooking = async () => {
 
 const createBooking = (booking) => Booking.create(booking);
 
+const getBookingById = (user) =>
+  Booking.findOne({
+    where: { id: user },
+  });
+
+const updateBooking = (data) =>
+  Booking.update({ ChairId: data.ChairId }, { where: { id: data.id } });
+//set ChairId = ChairId.ChairId
+
 module.exports = {
   findAllBooking,
   createBooking,
+  getBookingById,
+  updateBooking,
 };

@@ -18,7 +18,13 @@ const findEmail = async (inputEmail) => {
 };
 
 const createUser = (user) => User.create(user);
+
+const finduserById = (user) =>
+  User.findOne({
+    where: { id: user },
+  });
 module.exports = {
   findEmail,
   createUser,
+  finduserById,
 };

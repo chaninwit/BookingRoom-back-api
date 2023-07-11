@@ -15,9 +15,21 @@ const findAllChair = async () => {
   }
 };
 
+const findAllChairById = (Room) =>
+  Chair.findAll({
+    where: { RoomId: Room },
+  });
+
+const findChairById = (Room) =>
+  Chair.findOne({
+    where: { id: Room },
+  });
+
 const createChair = (chair) => Chair.create(chair);
 
 module.exports = {
   findAllChair,
   createChair,
+  findChairById,
+  findAllChairById,
 };

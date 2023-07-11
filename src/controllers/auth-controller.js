@@ -55,25 +55,17 @@ exports.login = async (req, res, next) => {
     next(err);
   }
 };
-// exports.card = async (req, res, next) => {
-//   try {
-//     const card = [
-//       {
-//         neme: "",
-//         details: "",
-//         room: "",
-//         numberSeat: "",
-//         remaining: "",
-//         time: "",
-//         dateStart: "",
-//         dateEnd: "",
-//       },
-//     ];
-//     res.json(card);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+exports.findUserById = async (req, res, next) => {
+  try {
+    const user = req.params;
+
+    const userID = await userService.finduserById(user.id);
+
+    res.status(200).json(userID);
+  } catch (err) {
+    next(err);
+  }
+};
 
 exports.getAllRoom = async (req, res, next) => {
   try {
@@ -108,12 +100,24 @@ exports.getAllChair = async (req, res, next) => {
     next(err);
   }
 };
+exports.findAllChairById = async (req, res, next) => {
+  try {
+    const Chair = req.params;
+
+    const chairData = await chairService.findAllChairById(Chair.id);
+    console.log(chairData);
+    res.status(200).json(chairData);
+  } catch (err) {
+    next(err);
+  }
+};
 
 exports.createChair = async (req, res, next) => {
   try {
     const value = req.body;
 
     await chairService.createChair(value);
+    console.log(value);
 
     res.status(200).json({
       message: "สร้างสำเร็จ",
@@ -134,11 +138,48 @@ exports.getAllBooking = async (req, res, next) => {
   }
 };
 
+exports.findBookingById = async (req, res, next) => {
+  try {
+    const booking = req.params;
+
+    console.log("booking", booking);
+
+    const bookingID = await bookingService.getBookingById(booking.id);
+
+    let Chair = bookingID.ChairId;
+    var myArr = JSON.parse(Chair);
+    chairData = { Chair: myArr, bookingID: bookingID };
+    console.log(chairData);
+    console.log(Chair);
+    res.status(200).json(chairData);
+  } catch (err) {
+    next(err);
+  }
+};
+exports.updateBooking = async (req, res, next) => {
+  try {
+    const booking = req.body;
+
+    const bookingID = await bookingService.updateBooking(booking);
+
+    res.status(200).json(bookingID);
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.createBooking = async (req, res, next) => {
   try {
     const value = req.body;
+    console.log("value", value);
+    let data = {
+      ...value,
+      ChairId: JSON.stringify(value.ChairId),
+    };
 
-    await bookingService.createBooking(value);
+    console.log("data", data);
+
+    await bookingService.createBooking(data);
 
     res.status(200).json({
       message: "สร้างสำเร็จ",
@@ -186,15 +227,12 @@ exports.getAllMeeting = async (req, res, next) => {
 exports.findCardById = async (req, res, next) => {
   try {
     const cardData = req.body;
-
+    let cardDate = [];
     console.log("cardData", cardData.id);
     const meetingData = await MeetingService.findCardById(cardData.id);
     const RoomData = await roomService.findRoomById(cardData.id);
-    const newMeetingData = { meetingData, RoomData };
-    console.log(newMeetingData);
-    console.log("number_seat", RoomData);
-    console.log(meetingData.RoomId);
-    res.status(200).json(meetingData);
+    cardDate.push({ meetingData: meetingData, RoomData: RoomData });
+    res.status(200).json(cardDate);
   } catch (err) {
     next(err);
   }
@@ -212,6 +250,18 @@ exports.findCard = async (req, res, next) => {
       console.log("RoomData", RoomData);
     }
     res.status(200).json(cardDate);
+  } catch (err) {
+    next(err);
+  }
+};
+exports.findChairById = async (req, res, next) => {
+  try {
+    const chair = req.body;
+
+    console.log("chair", chair);
+    const chairID = await chairService.findChairById(chair);
+
+    res.status(200).json(chairID);
   } catch (err) {
     next(err);
   }

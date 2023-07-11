@@ -7,7 +7,7 @@ const Booking = sequelize.define(
     status_booking: Sequelize.INTEGER,
     UserId: Sequelize.INTEGER,
     MeetingId: Sequelize.INTEGER,
-    ChairId: Sequelize.INTEGER,
+    ChairId: Sequelize.STRING,
   },
   {
     timestamps: true,
