@@ -10,6 +10,7 @@ const roomService = require("../services/room-service");
 const chairService = require("../services/chair-service");
 const bookingService = require("../services/booking-service");
 const MeetingService = require("../services/meeting-service");
+const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res, next) => {
   try {
@@ -160,7 +161,12 @@ exports.updateBooking = async (req, res, next) => {
   try {
     const booking = req.body;
 
-    const bookingID = await bookingService.updateBooking(booking);
+    let data = {
+      ...booking,
+      ChairId: JSON.stringify(booking.ChairId),
+    };
+
+    const bookingID = await bookingService.updateBooking(data);
 
     res.status(200).json(bookingID);
   } catch (err) {
@@ -176,6 +182,8 @@ exports.createBooking = async (req, res, next) => {
       ...value,
       ChairId: JSON.stringify(value.ChairId),
     };
+
+    //คล้ายๆ อันนี้ ลองทำดู
 
     console.log("data", data);
 
@@ -199,16 +207,48 @@ exports.getAllMeeting = async (req, res, next) => {
     next(err);
   }
 };
+exports.findMeetingById = async (req, res, next) => {
+  try {
+    const bearerToken = req.headers.authorization; //ใช้อันนี้ดึง token ลองดูว่า token มาปะ
+    console.log("bearerToken", bearerToken);
+    const token = bearerToken;
+
+    const decoded = JSON.parse(
+      Buffer.from(token.split(".")[1], "base64").toString()
+    ); //เอามาจาก token คล้ายๆกะอันก่อนหน้าขึ้นไปดู ตัวอย่างก็ได้
+
+    const meetingData = await MeetingService.findMeetingById(decoded.id); //decoded นี่ข้างในมีอะไรบ้าง เราจะใช้แค่อะไร
+
+    res.status(200).json(meetingData);
+  } catch (err) {
+    next(err);
+  }
+};
 
 exports.createMeeting = async (req, res, next) => {
   try {
     const value = req.body;
+    const bearerToken = req.headers.authorization;
+    console.log("bearerToken", bearerToken);
+    const token = bearerToken;
+    console.log("token", token);
+    const decoded = JSON.parse(
+      Buffer.from(token.split(".")[1], "base64").toString()
+    );
 
-    await MeetingService.createMeeting(value);
+    console.log("decoded", decoded);
+
+    let data = {
+      ...value,
+      createBy: decoded.id,
+    };
+    console.log("data", data);
+
+    await MeetingService.createMeeting(data);
 
     res.status(200).json({
       message: "สร้างสำเร็จ",
-      payload: value,
+      payload: data,
     });
   } catch (err) {
     next(err);
@@ -230,7 +270,8 @@ exports.findCardById = async (req, res, next) => {
     let cardDate = [];
     console.log("cardData", cardData.id);
     const meetingData = await MeetingService.findCardById(cardData.id);
-    const RoomData = await roomService.findRoomById(cardData.id);
+    console.log("meetingData", meetingData);
+    const RoomData = await roomService.findRoomById(meetingData.RoomId);
     cardDate.push({ meetingData: meetingData, RoomData: RoomData });
     res.status(200).json(cardDate);
   } catch (err) {

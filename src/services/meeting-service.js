@@ -28,9 +28,15 @@ const findCardById = (user) =>
 
 const findCard = (meeting) => Meeting.findAll();
 
+const findMeetingById = (user) =>
+  Meeting.findAll({
+    where: { createBy: user },
+  });
+
 module.exports = {
   findAllMeeting,
   createMeeting,
   findCardById,
   findCard,
+  findMeetingById,
 };

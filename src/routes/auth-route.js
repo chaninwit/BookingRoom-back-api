@@ -15,6 +15,7 @@ router.get("/findCard", authController.findCard);
 router.get("/getAllChair", authController.getAllChair);
 router.get("/findAllChairById/:id", authController.findAllChairById);
 router.get("/findUserById/:id", authController.findUserById);
+router.get("/findMeetingById", authController.findMeetingById);
 //
 router.post("/createRoom", authController.createRoom);
 router.post("/createChair", authController.createChair);

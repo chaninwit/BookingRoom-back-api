@@ -22,13 +22,7 @@ const Meeting = sequelize.define(
         notEmpty: true,
       },
     },
-
-    time: {
-      type: Sequelize.STRING,
-      validate: {
-        notEmpty: true,
-      },
-    },
+    time: Sequelize.STRING,
     dateStart: {
       type: Sequelize.STRING,
       validate: {
@@ -43,6 +37,7 @@ const Meeting = sequelize.define(
     },
 
     RoomId: Sequelize.INTEGER,
+    createBy: Sequelize.INTEGER,
   },
   {
     underscored: true,
