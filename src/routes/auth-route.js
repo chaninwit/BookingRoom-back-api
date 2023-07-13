@@ -16,6 +16,9 @@ router.get("/getAllChair", authController.getAllChair);
 router.get("/findAllChairById/:id", authController.findAllChairById);
 router.get("/findUserById/:id", authController.findUserById);
 router.get("/findMeetingById", authController.findMeetingById);
+router.get("/findMeetingByMeeting/:id", authController.findMeetingByMeeting);
+router.get("/findBookingById/:id", authController.findBookingById);
+router.get("/getBookingByMeetingId/:id", authController.getBookingByMeetingId);
 //
 router.post("/createRoom", authController.createRoom);
 router.post("/createChair", authController.createChair);
@@ -23,8 +26,9 @@ router.post("/createBooking", authController.createBooking);
 router.post("/createMeeting", authController.createMeeting);
 router.post("/findCardById", authController.findCardById);
 router.post("/findChairById", authController.findChairById);
-router.get("/findBookingById/:id", authController.findBookingById);
+
 //
 router.put("/updateBooking", authController.updateBooking);
-
+//
+router.delete("/deleteMeeting/:id", authController.deleteMeeting);
 module.exports = router;

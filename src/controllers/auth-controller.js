@@ -146,13 +146,27 @@ exports.findBookingById = async (req, res, next) => {
     console.log("booking", booking);
 
     const bookingID = await bookingService.getBookingById(booking.id);
-
+    console.log("---------------------------", bookingID);
     let Chair = bookingID.ChairId;
+    console.log("------------------------------------------", Chair);
     var myArr = JSON.parse(Chair);
     chairData = { Chair: myArr, bookingID: bookingID };
     console.log(chairData);
     console.log(Chair);
     res.status(200).json(chairData);
+  } catch (err) {
+    next(err);
+  }
+};
+exports.getBookingByMeetingId = async (req, res, next) => {
+  try {
+    const booking = req.params;
+
+    console.log("booking", booking);
+
+    const bookingID = await bookingService.getBookingByMeetingId(booking.id);
+
+    res.status(200).json(bookingID);
   } catch (err) {
     next(err);
   }
@@ -219,6 +233,23 @@ exports.findMeetingById = async (req, res, next) => {
 
     const meetingData = await MeetingService.findMeetingById(decoded.id); //decoded นี่ข้างในมีอะไรบ้าง เราจะใช้แค่อะไร
 
+    let cardDate = [];
+    for (let i = 0; i < meetingData.length; i++) {
+      const RoomData = await roomService.findRoomById(meetingData[i].RoomId);
+      cardDate.push({ meetingData: meetingData[i], RoomData: RoomData });
+      console.log("RoomData", RoomData);
+    }
+    res.status(200).json(cardDate);
+  } catch (err) {
+    next(err);
+  }
+};
+exports.findMeetingByMeeting = async (req, res, next) => {
+  try {
+    const meeting = req.params;
+
+    const meetingData = await MeetingService.findMeetingByMeeting(meeting.id);
+
     res.status(200).json(meetingData);
   } catch (err) {
     next(err);
@@ -260,6 +291,22 @@ exports.getAllMeeting = async (req, res, next) => {
     const meetingData = await MeetingService.findAllMeeting();
 
     res.status(200).json(meetingData);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteMeeting = async (req, res, next) => {
+  try {
+    let deleteDate = [];
+    const user = req.params;
+    console.log("user", user);
+    const userID = await MeetingService.deleteMeeting(user.id);
+
+    const bookingID = await bookingService.deleteBookingID(user.id);
+    deleteDate.push({ userID: userID, bookingID: bookingID });
+
+    res.status(200).json(deleteDate);
   } catch (err) {
     next(err);
   }

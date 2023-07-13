@@ -12,6 +12,7 @@ const Booking = sequelize.define(
   {
     timestamps: true,
     underscored: true,
+    paranoid: true,
   }
 );
 

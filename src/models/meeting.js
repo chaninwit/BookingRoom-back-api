@@ -16,12 +16,7 @@ const Meeting = sequelize.define(
         notEmpty: true,
       },
     },
-    roomNumber: {
-      type: Sequelize.STRING,
-      validate: {
-        notEmpty: true,
-      },
-    },
+    RoomId: Sequelize.INTEGER,
     time: Sequelize.STRING,
     dateStart: {
       type: Sequelize.STRING,
@@ -36,7 +31,6 @@ const Meeting = sequelize.define(
       },
     },
 
-    RoomId: Sequelize.INTEGER,
     createBy: Sequelize.INTEGER,
   },
   {
